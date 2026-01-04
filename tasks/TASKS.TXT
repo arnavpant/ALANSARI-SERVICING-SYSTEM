@@ -1,0 +1,41 @@
+# Project: Al Ansari Service System Roadmap
+
+## 🚀 Module 1: Automated Intake (Polishing)
+- [x] **Gmail Configuration:** Ensure `.env` has the correct Gmail credentials and app password configured.
+- [x] **Uptime Monitor:** Set up UptimeRobot to ping the backend URL every 5 minutes to prevent the free tier server from sleeping. (Ready - will configure in Module 5 with Render URL)
+- [x] **Error Handling:** Add a `try/except` block in the email loop to send an alert (print log) if the email connection drops.
+
+## 📦 Module 2: Physical Reception (Current Step)
+- [x] **Unit Collection Form:** Create the React modal for processing drafts (Completed).
+- [x] [cite_start]**Smart ID Logic:** Implement logic to generate IDs like HP-3001 or OOW-5001 (Completed) [cite: 83-90].
+- [x] [cite_start]**Active Jobs Dashboard:** Create the "Shop Floor" view for tracking received units (Completed) [cite: 33-34].
+- [x] **Search & Filter:** Add a search bar to `ActiveJobs.jsx` to filter by Serial Number or Retailer Name.
+- [x] [cite_start]**Engineer Assignment UI:** Add a dropdown in the Active Jobs list to assign a specific engineer to a job [cite: 110-111].
+- [x] [cite_start]**Assignment Logic:** Update backend to save the `assigned_engineer_id` and change status to `ASSIGNED` [cite: 115-116].
+
+## 🛠️ Module 3: Diagnosis & Parts (The Engineer View)
+- [ ] [cite_start]**Engineer Login View:** Create a simple "My Jobs" page that filters `jobs` where `assigned_engineer_id` matches the user[cite: 126].
+- [ ] [cite_start]**Diagnosis Input:** Create a form for Engineers to update `fault_details` and add technical notes[cite: 157].
+- [ ] [cite_start]**Parts Table:** Create a new Supabase table named `parts` with columns: `id`, `job_id`, `part_name`, `part_number`, `status` (ORDERED/ARRIVED), `tracking_number` [cite: 206-207].
+- [ ] [cite_start]**Add Part Modal:** Build a popup for Engineers to add parts one by one (Part Name, P/N, Tracking No) [cite: 161-169].
+- [ ] [cite_start]**Auto-Status Update:** Trigger a job status change to `WAITING_FOR_PARTS` as soon as the first part is added[cite: 174].
+- [ ] [cite_start]**Parts Reception View:** Create a view for Front Desk to search by `tracking_number` and mark specific parts as `ARRIVED` [cite: 179-184].
+- [ ] [cite_start]**Ready for Repair Logic:** Automation that checks if *all* parts for a job are `ARRIVED`, then updates job status to `READY_FOR_REPAIR` [cite: 192-193].
+
+## 🏁 Module 4: Completion & Dispatch
+- [ ] **Completion Modal:** Create a "Complete Job" screen for Engineers.
+- [ ] [cite_start]**RMA Selector:** For every part used, force the Engineer to select "Scrap" or "Return to Vendor" [cite: 222-224].
+- [ ] [cite_start]**Delivery Note Generator:** Create a button that takes job details and generates a simple PDF (using `jspdf` library) for printing [cite: 233-237].
+- [ ] [cite_start]**Close Job Action:** A final "Handover" button for Front Desk that sets status to `CLOSED` and locks the record [cite: 247-248].
+
+## 🌍 Module 5: Deployment (Go Live)
+- [ ] **GitHub Repo:** Initialize a git repository and push the code (`git init`, `git add .`, `git commit`).
+- [ ] **Deploy Backend:** Connect the GitHub repo to **Render** (Python Web Service) for the FastAPI backend.
+- [ ] **Deploy Frontend:** Connect the GitHub repo to **Vercel** for the React frontend.
+- [ ] **Environment Variables:** Copy all `.env` secrets (Supabase URL, Email Pass) to the production dashboards.
+- [ ] **Final Smoke Test:** Run one full cycle (Email -> Draft -> Receive -> Assign -> Add Part -> Close) on the live URL.
+
+## 📝 Future Enhancements (Post-MVP)
+- [ ] **Email Deduplication:** Add `email_source_id` column to jobs table and populate it in backend email parser to prevent duplicate job creation if same email is processed multiple times
+- [ ] **Backend Integration:** Update `main.py` to store email message UID in `email_source_id` when creating jobs from emails
+- [ ] **Duplicate Check:** Before creating job, check if `email_source_id` already exists in database
