@@ -41,8 +41,8 @@ def process_emails():
             # Check last 7 days to catch overnight/weekend emails
             seven_days_ago = (datetime.now() - timedelta(days=7)).strftime("%Y/%m/%d")
             
-            # Gmail filter: Primary inbox + Unread + Last 7 days
-            criteria = f'X-GM-RAW "category:primary is:unread after:{seven_days_ago}"'
+            # Gmail filter: Label "service-alansari" + Unread + Last 7 days
+            criteria = f'X-GM-RAW "label:service-alansari is:unread after:{seven_days_ago}"'
             
             # For production Outlook (future):
             # criteria = AND(seen=False, date_gte=(date.today() - timedelta(days=7)))
